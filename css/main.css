@@ -1,0 +1,10 @@
+#content{
+  width: 900px;
+}
+
+#header {
+  width: 450px;
+  margin-left: auto ;
+  margin-right: auto ;
+  font-color: red;
+}

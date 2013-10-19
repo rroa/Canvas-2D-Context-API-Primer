@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Canvas 2D Context API Primer</title>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=1024" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+
+      <!--SCRIPTS-->
+      <script type="text/javascript">
+        /*
+          # Context 2d API: arc
+          Adds points to a path that represents an arc.
+          
+          # Standard Definition.
+          http://www.w3.org/html/wg/drafts/2dcontext/html5_canvas/#dom-context-2d-arc
+          
+          # Function signature
+          void arc(unrestricted double x, unrestricted double y, unrestricted double radius, unrestricted double startAngle, unrestricted double endAngle, optional boolean anticlockwise = false); 
+        
+        */
+        
+        function draw() {
+        
+          // Get a reference to the canvas 
+          var canvas = document.getElementById('canvas');
+        
+          // Get a reference to the drawing context 
+          var ctx = canvas.getContext('2d'); 
+          
+          var colors = [ "#01C001", "#0152D8", "#E46F0F", "#868686", "#FF2727", "#FF0000" ];
+          var colorIndex = 0;
+          
+          for (var i = 0; i < 2; ++i) {
+          
+            for (var j = 0; j < 3; ++j) {
+            
+              ctx.beginPath();
+              ctx.strokeStyle = colors[colorIndex];
+              
+              var x = 25 + j * 50;
+              var y = 25 + i * 50;
+            
+              var radius = 20;
+              var startAngle = 0;
+              var endAngle = Math.PI + (Math.PI * j) / 2;
+            
+              var anticlockwise = i % 2 == 0 ? false : true;
+            
+              ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
+            
+              // Draw the arc.
+              ctx.stroke();
+              
+              colorIndex++;
+            }          
+          }          
+        }
+  </script>
+</head>
+<body onload="draw();">
+  <canvas id="canvas" width="300" height="300">
+    This browser or document mode doesn't support canvas
+  </canvas> 
+</body>
+</html> 

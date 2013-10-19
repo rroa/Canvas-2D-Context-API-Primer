@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Canvas 2D Context API Primer</title>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=1024" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      
+      <!--STYLES-->
+      <link href="css/main.css" rel="stylesheet" />
+      
+      <!--SCRIPTS-->
+      <script type="text/javascript">
+       
+       // Loading a JSON file
+       function loadJSON(callback) {
+          var xobj = new XMLHttpRequest();
+          xobj.overrideMimeType("application/json");
+          xobj.open('GET', 'data/browser.data.json', true);
+          xobj.onreadystatechange = function () {
+            if (xobj.readyState == 4 && xobj.status == "200") {
+              // .open will NOT return a value but simply returns undefined in async mode so use a callback
+              callback(xobj.responseText);
+            }
+          }
+          xobj.send(null);
+        }
+
+        // Call to function with anonymous callback
+        loadJSON(function(response) {
+          
+          // Get a reference to the canvas 
+          var canvas = document.getElementById('canvas'); 
+ 
+          // Get a reference to the drawing context 
+          var ctx = canvas.getContext('2d'); 
+ 
+          // Draw chart area
+          ctx.fillStyle = "white"; 
+          ctx.fillRect(0,0,canvas.width,canvas.height);                     
+          
+          // Draw axis lines 
+          ctx.fillStyle = "black"; 
+          ctx.lineWidth = 2.0; 
+          ctx.beginPath(); 
+          ctx.moveTo( 50,10); 
+          ctx.lineTo( 50, canvas.height-20 ); 
+          ctx.lineTo( canvas.width - 20, canvas.height-20 ); 
+          ctx.stroke(); 
+          
+          // Retrieve data
+          var jsonresponse = JSON.parse(response);
+                    
+          
+          if( jsonresponse.length > 0 ){
+            var ITEM_COUNT = 5;
+            var colors = [ "#01C001", "#0152D8", "#E46F0F", "#868686", "#FF2727"];
+            
+            var axisFraction = jsonresponse[0].Percentage / ITEM_COUNT;
+            axisFraction = ( Math.ceil( axisFraction ));
+            
+            var axisPadding = ( canvas.width - 80 ) / ITEM_COUNT;            
+            
+            // Draw chart            
+            for( var i = 0; i < ITEM_COUNT; ++i ){                          
+              
+              ///////////////////////////////////////////
+              // Draw data             
+              ///////////////////////////////////////////
+              
+              // Retrieve the usage percentage of the browser
+              var pctg = jsonresponse[i].Percentage;
+              
+              // Create the linear gradient
+              var gradient = ctx.createLinearGradient( 0, 0, canvas.width, 0 );
+              
+              // Add the colors with fixed stops
+              gradient.addColorStop( "0", "white" );   
+              gradient.addColorStop( "0.25", colors[i] );
+              gradient.addColorStop( "0.5", colors[i] );
+              gradient.addColorStop( "1.0", colors[i] );
+              
+              // Set the gradient as the fill style
+              ctx.fillStyle = gradient;   
+              ctx.fillRect( 51, 25 + i * 100, pctg * 20, 50 );
+              
+              ///////////////////////////////////////////
+              // X-Axis Data              
+              ///////////////////////////////////////////
+              
+              // Separation line
+              ctx.fillStyle = "black";             
+              ctx.lineWidth = 0.5; 
+              ctx.beginPath(); 
+              ctx.moveTo( 50 + i * axisPadding, 10); 
+              ctx.lineTo( 50 + i * axisPadding, canvas.height - 20 );               
+              ctx.stroke();
+              
+              // Percentage
+              ctx.fillStyle = "black";
+              ctx.fillText( i * axisFraction + "%", 50 + i * axisPadding, canvas.height );
+              
+              ///////////////////////////////////////////
+              // Y-Axis Data              
+              ///////////////////////////////////////////
+              ctx.fillStyle = "black";
+              
+              // Browser name
+              ctx.fillText( jsonresponse[i].Browser + "", 4, i * 100 + 50 ); 
+            }
+            
+            // Separation line
+            ctx.fillStyle = "black";             
+            ctx.lineWidth = 0.5; 
+            ctx.beginPath(); 
+            ctx.moveTo( 50 + ITEM_COUNT * axisPadding, 10); 
+            ctx.lineTo( 50 + ITEM_COUNT * axisPadding, canvas.height - 20 );               
+            ctx.stroke();
+            
+            // Percentage
+            ctx.fillStyle = "black";
+            ctx.fillText( ITEM_COUNT * axisFraction + "%", 50 + ITEM_COUNT * axisPadding, canvas.height );
+          }
+        });
+        
+      </script>
+    </head>
+    <body>
+      <div id="content">              
+        <div id="header">          
+          <h3>Top 5 Browsers from Sept 2012 to Sept 2013</h3>
+        </div>
+        <canvas id="canvas" width="860" height="520"></canvas>
+      </div>
+    </body>
+</html>
