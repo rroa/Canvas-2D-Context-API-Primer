@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Canvas 2D Context API Primer</title>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=1024" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+
+       <!--SCRIPTS-->
+      <script type="text/javascript">
+        /*
+          # Context 2d API: strokeText
+          Renders the specified text at the specified position by using the current font, lineWidth, and strokeStyle property.
+          
+          # Standard Definition.
+          http://www.w3.org/html/wg/drafts/2dcontext/html5_canvas/#dom-context-2d-stroketext
+          
+          # Function signature
+           void strokeText(DOMString text, unrestricted double x, unrestricted double y, optional unrestricted double maxWidth);
+        
+        */
+                        
+        function draw(){
+          // Get a reference to the canvas 
+          var canvas = document.getElementById('canvas');
+        
+          // Get a reference to the drawing context 
+          var ctx = canvas.getContext('2d');
+          
+          gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+          
+          // Add the colors with fixed stops at 1/4 of the width.
+          gradient.addColorStop("0", "magenta");
+          gradient.addColorStop(".25", "blue");
+          gradient.addColorStop(".50", "green");
+          gradient.addColorStop(".75", "yellow");
+          gradient.addColorStop("1.0", "red");
+          
+          // Set the fill pattern
+          ctx.strokeStyle = gradient;
+          
+          // Set the font
+          ctx.font = "italic 200 36px/2 Unknown Font, sans-serif"
+          
+          var i;
+          for (i = 0; i < 450; i += 50) {
+             ctx.strokeText("Canvas 2D", i, i + 50);
+          }
+        }
+      </script>
+  </head>
+  <body onload="draw();">
+    <p>
+      <a href="index.html">Back to index</a>
+    </p>  
+    <canvas id="canvas" width="600" height="500">
+      This browser or document mode doesn't support canvas
+    </canvas>
+  </body>
+</html>
