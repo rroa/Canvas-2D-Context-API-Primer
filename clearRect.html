@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>Canvas 2D Context API Primer</title>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=1024" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+
+       <!--SCRIPTS-->
+       <script type="text/javascript">
+       /*
+          # Context 2d API: clearRect
+          Clears the pixels on a CanvasRenderingContext2D object within a given rectangle.
+          
+          # Standard Definition.
+          http://www.w3.org/html/wg/drafts/2dcontext/html5_canvas/#dom-context-2d-clearrect
+          
+          # Function signature
+          void clearRect(unrestricted double x, unrestricted double y, unrestricted double w, unrestricted double h);
+        
+        */
+        function draw() {
+          // Get a reference to the canvas 
+          var canvas = document.getElementById('canvas');
+        
+          // Get a reference to the drawing context 
+          var ctx = canvas.getContext('2d');
+        
+          // Set the fill pattern
+          ctx.fillStyle = "FFF231";
+          
+          // Draw the rec
+          ctx.fillRect(0, 0, canvas.width, canvas.height);        
+        }
+  
+        function clearMe() {
+          // Get a reference to the canvas 
+          var canvas = document.getElementById('canvas');
+        
+          // Get a reference to the drawing context 
+          var ctx = canvas.getContext('2d');
+            
+          // Clear the center 80% of the canvas.
+          ctx.clearRect(canvas.width * .1, canvas.height * .1, canvas.width * .8, canvas.height * .8);        
+        }
+       </script>
+  </head>
+  <body onload="draw();">
+    <p>
+      <a href="index.html">Back to index</a>
+    </p>    
+    <canvas id="canvas" width="600" height="300">
+        This browser or document mode doesn't support canvas
+    </canvas>
+    <p>
+      <button onclick="clearMe();">clear me</button>   
+      <button onclick="draw();">Reset</button>   
+    </p>
+  </body>
+</html> 
