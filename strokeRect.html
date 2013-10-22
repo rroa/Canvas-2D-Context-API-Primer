@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Canvas 2D Context API Primer</title>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=1024" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+
+       <!--SCRIPTS-->
+      <script type="text/javascript">
+        /*
+          # Context 2d API: strokeRect
+          Creates an outline of the specified rectangle on a canvas by using the current stroke, line width, and join styles.
+          
+          # Standard Definition.
+          http://www.w3.org/html/wg/drafts/2dcontext/html5_canvas/#dom-context-2d-strokerect
+          
+          # Function signature
+          void strokeRect(unrestricted double x, unrestricted double y, unrestricted double w, unrestricted double h);
+        
+        */
+                        
+        function draw(){
+          // Get a reference to the canvas 
+          var canvas = document.getElementById('canvas');
+        
+          // Get a reference to the drawing context 
+          var ctx = canvas.getContext('2d');
+          
+          // Blue rectangle outline
+          ctx.lineWidth = "3";
+          ctx.strokeStyle = "blue";
+          ctx.strokeRect(5, 5, 300, 250);
+           
+          // Red rectangle outline
+          ctx.lineWidth = "5";
+          ctx.strokeStyle = "red";
+          ctx.strokeRect(150, 200, 300, 150);
+          
+          // Green rectangle outline with round corners
+          ctx.lineJoin = "round";
+          ctx.lineWidth = "10";
+          ctx.lineWidth = "7";
+          ctx.strokeStyle = "green";
+          ctx.strokeRect(250, 50, 150, 250);
+        }
+      </script>
+  </head>
+  <body onload="draw();">
+    <a href="index.html">Back to index</a>
+    <canvas id="canvas" width="1024" height="728">
+      This browser or document mode doesn't support canvas
+    </canvas>
+  </body>
+</html>
