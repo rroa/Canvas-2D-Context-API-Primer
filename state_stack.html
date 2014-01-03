@@ -1,0 +1,73 @@
+<!--
+To change this template use Tools | Templates.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canvas 2D Context API Primer</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <!--SCRIPTS-->
+    <script type="text/javascript">
+         /*
+          # Context 2D API: scale
+          The scale method modifies the transformation by multiplying the matrix by the specified factor.
+          
+          # Standard Definition.
+          http://www.w3.org/html/wg/drafts/2dcontext/html5_canvas/#dom-context-2d-scale
+          
+          # Function signature
+          void scale(unrestricted double x, unrestricted double y);
+        
+        */
+        function draw(){            
+            // Get a reference to the canvas 
+            var canvas = document.getElementById('canvas');
+        
+            // Get a reference to the drawing context 
+            var ctx = canvas.getContext('2d');
+            
+            var rectWidth = 150;
+            var rectHeight = 75;
+
+            ctx.save();
+            
+            // save state 1
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+
+            ctx.save();
+            // save state 2
+            ctx.rotate(Math.PI / 4);
+
+            ctx.save();
+            // save state 3
+            ctx.scale(2, 2);
+
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(rectWidth / -2, rectHeight / -2, rectWidth, rectHeight);
+
+            ctx.restore();
+            // restore state 3
+            ctx.fillStyle = 'red';
+            ctx.fillRect(rectWidth / -2, rectHeight / -2, rectWidth, rectHeight);
+
+            ctx.restore();
+            // restore state 2
+            ctx.fillStyle = 'yellow';
+            ctx.fillRect(rectWidth / -2, rectHeight / -2, rectWidth, rectHeight);
+
+            ctx.restore();
+            // restore state 1
+            ctx.fillStyle = 'green';
+            ctx.fillRect(rectWidth / -2, rectHeight / -2, rectWidth, rectHeight);           
+        }
+    </script>
+</head>
+<body onload="draw();">
+    <canvas id="canvas" width="350" height="400">
+      This browser or document mode doesn't support canvas
+    </canvas>
+</body>
+</html>

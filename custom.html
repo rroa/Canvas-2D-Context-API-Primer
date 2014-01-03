@@ -1,0 +1,62 @@
+<!--
+To change this template use Tools | Templates.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canvas 2D Context API Primer</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <!--SCRIPTS-->
+    <script type="text/javascript">
+         /*
+          # Context 2D API: transform
+          The parameters of transform represent a matrix of the following format.
+          
+          a	c	e
+          b	d	f
+          0	0	1
+          
+          This matrix is multiplied with the transformation matrix of the current context.
+          
+          # Standard Definition.
+          http://www.w3.org/html/wg/drafts/2dcontext/html5_canvas/#dom-context-2d-transform
+          
+          # Function signature
+          void transform(unrestricted double a, unrestricted double b, unrestricted double c, unrestricted double d, unrestricted double e, unrestricted double f);
+        
+        */
+        function draw(){            
+            // Get a reference to the canvas 
+            var canvas = document.getElementById('canvas');
+        
+            // Get a reference to the drawing context 
+            var ctx = canvas.getContext('2d');
+            
+            var rectWidth = 150;
+            var rectHeight = 75;
+            
+            // translation matrix:
+            // 1  0  tx
+            // 0  1  ty
+            // 0  0  1
+            
+            var tx = canvas.width / 2;
+            var ty = canvas.height / 2;
+            
+            // translate context to center of canvas
+            ctx.transform(1, 0, 0, 1, tx, ty);
+                        
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(rectWidth / -2, rectHeight / -2, rectWidth, rectHeight);            
+        }
+    </script>
+</head>
+<body onload="draw();">
+    <canvas id="canvas" width="1024" height="600">
+      This browser or document mode doesn't support canvas
+    </canvas>
+</body>
+</html>

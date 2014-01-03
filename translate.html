@@ -1,0 +1,48 @@
+<!--
+To change this template use Tools | Templates.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canvas 2D Context API Primer</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <!--SCRIPTS-->
+    <script type="text/javascript">
+         /*
+          # Context 2D API: translate
+          The translate method effectively remaps the (0,0) origin on a canvas. You can specify one or both parameters.
+          
+          # Standard Definition.
+          http://www.w3.org/html/wg/drafts/2dcontext/html5_canvas/#dom-context-2d-translate
+          
+          # Function signature
+          void translate(unrestricted double x, unrestricted double y);
+        
+        */
+        function draw(){            
+            // Get a reference to the canvas 
+            var canvas = document.getElementById('canvas');
+        
+            // Get a reference to the drawing context 
+            var ctx = canvas.getContext('2d');
+            
+            var rectWidth = 150;
+            var rectHeight = 75;
+
+            // translate context to center of canvas
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(rectWidth / -2, rectHeight / -2, rectWidth, rectHeight);
+        }
+    </script>
+</head>
+<body onload="draw();">
+    <canvas id="canvas" width="1024" height="600">
+      This browser or document mode doesn't support canvas
+    </canvas>
+</body>
+</html>
