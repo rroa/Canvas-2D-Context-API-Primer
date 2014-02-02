@@ -1,0 +1,54 @@
+<!--
+To change this template use Tools | Templates.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Double Buffering</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!--SCRIPTS-->
+    <script type="text/javascript">       
+        function draw() {
+            var canvas1 = document.getElementById('frontBuffer');
+            var canvas2 = document.getElementById('backBuffer');
+            
+            // Get a reference to the drawing contexts 
+            var ctx1 = canvas1.getContext('2d');
+            var ctx2 = canvas2.getContext('2d');
+            
+            var colors = [ "#01C001", "#0152D8", "#E46F0F", "#868686", "#850065", "#FF0000" ];
+            var colorIndex = 0;
+            
+            (function drawFrame(time) {                
+                if( colorIndex >= colors.length ){
+                    colorIndex = 0;
+                }                    
+                //window.requestAnimationFrame(drawFrame);                
+                ctx1.drawImage(canvas2,0,0);
+                ctx2.fillStyle = colors[ colorIndex ];
+                ctx2.fillRect(10,10,200,200);
+                ctx2.fillStyle = "#000";
+                ctx2.font = "italic 200 100px/2 Unknown Font, sans-serif"
+                ctx2.fillText(colorIndex, 80, 140);
+                colorIndex++;
+                
+                window.setTimeout(drawFrame, 1000);
+            })();          
+        }       
+    </script>
+</head>
+<body onload="draw();">   
+    <div style="width:600px">
+        <div id="back" style="width:50%;float:left;">
+            <h1>BACK BUFFER</h1>
+            <canvas id="backBuffer" width="300" height="300"></canvas>
+        </div>
+        <div id="front" style="width:50%;float:left;">
+            <h1>FRONT BUFFER</h1>
+            <canvas id="frontBuffer" width="300" height="300"></canvas>        
+        </div>        
+    </div>    
+</body>
+</html>
