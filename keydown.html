@@ -7,10 +7,11 @@ To change this template use Tools | Templates.
     <title>Keyboard Events - keydown</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=1024" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    
+    <meta name="apple-mobile-web-app-capable" content="yes" />    
     <style type="text/css">
-        canvas { border: 1px solid black; }
+        canvas.default { border: 1px solid black; }
+        canvas.active { border: 1px solid red; }
+        div.feedback { color: red; font-size: 1.0em; }
     </style>
     
     <!--SCRIPTS-->
@@ -21,15 +22,51 @@ To change this template use Tools | Templates.
               return false;
          }                           
          
-         function draw() {
+         var handlefocus = function(e){             
+             var elements = document.getElementsByClassName('active');
+             var index;
+             for(index = 0; index < elements.length; index++){
+                 elements[0].className = 'default';
+             }
+             
+             e.srcElement.className = 'active';
+             
+             var text = document.getElementById('text');
+             text.innerHTML = 'Active Canvas';
+             
+             draw('Press keys!');
+             
+             return false;
+         }
+         
+         var handleblur = function(e){
+             var elements = document.getElementsByClassName('active');
+             var index;
+             for(index = 0; index < elements.length; index++){
+                 elements[0].className = 'default';
+             }
+             
+             var textElements = document.getElementsByClassName('feedback');
+             for(index = 0; index < textElements.length; index++){
+                 textElements[0].innerHTML = '';
+             }
+             
+             draw('Click me!');
+         }
+         
+         function draw(text) {
               // Get a reference to the canvas 
               var canvas = document.getElementById('canvas');
         
-              canvas.addEventListener('keydown',handlekeydown,false);
+              canvas.addEventListener('keyup', handlekeydown, false);
+              canvas.addEventListener('focus', handlefocus, false);
+              canvas.addEventListener('blur', handleblur, false);
              
               // Get a reference to the drawing context 
               var ctx = canvas.getContext('2d');
-          
+              
+              clearCanvas(ctx);
+             
               gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
           
               // Add the colors with fixed stops at 1/4 of the width.
@@ -45,7 +82,7 @@ To change this template use Tools | Templates.
               ctx.fillText("keydown event", 20, 40);   
              
               gradient.addColorStop("0", "gray");
-              ctx.fillText("Input", canvas.width/2 - 50, canvas.height/2);          
+              ctx.fillText(text, canvas.width/2 - 90, canvas.height/2);          
          }                  
          
          function UpdateText(input) {
@@ -75,14 +112,19 @@ To change this template use Tools | Templates.
               ctx.fillText("keyCode: " + input, 40, canvas.height/2);
               
          }
+        
+         function clearCanvas(ctx){                          
+             ctx.clearRect(0, 0, canvas.width, canvas.height);
+         }      
     </script>     
 </head>
-<body onload="draw();">
+<body onload="draw('Click me!');">
     <p>
       <a href="index.html">Back to index</a>
     </p>  
-    <canvas id="canvas" width="300" height="200" tabindex='0'>
+    <canvas id="canvas" width="300" height="200" tabindex='0' class="default">
       This browser or document mode doesn't support canvas
     </canvas>
+    <div id="text" class="feedback"></div>
 </body>
 </html>
