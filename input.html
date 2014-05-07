@@ -1,0 +1,44 @@
+<!--
+To change this template use Tools | Templates.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Canvas 2D Context API Primer</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=1024" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        
+        <!--STYLES-->
+        <link href="css/main.css" rel="stylesheet" />
+      
+        <!--SCRIPTS-->
+        <script type="text/javascript">    
+            function draw(){                
+                // Get a reference to the canvas 
+                var canvas = document.getElementById('canvas');
+                
+                // Get a reference to the drawing context 
+                var ctx = canvas.getContext('2d');
+                
+                // Set the font
+                ctx.font = "italic 200 36px/2 Unknown Font, sans-serif";
+                
+                document.addEventListener("keydown", function (e) {
+	                //keysDown[e.keyCode] = true;
+	                //
+	                alert(e.keyCode);                                      
+                    ctx.fillText(e.keyCode, 100, 100);          
+                }, false);
+            }
+        </script>
+    </head>
+    <body onload="draw();">
+        <p>
+            <a href="index.html">Back to index</a>
+        </p>  
+        <canvas id="canvas" width="1024" height="600">
+            This browser or document mode doesn't support canvas
+        </canvas>
+    </body>
+</html>

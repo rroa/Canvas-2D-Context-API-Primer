@@ -1,0 +1,88 @@
+<!--
+To change this template use Tools | Templates.
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Keyboard Events - keydown</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    
+    <style type="text/css">
+        canvas { border: 1px solid black; }
+    </style>
+    
+    <!--SCRIPTS-->
+    <script type="text/javascript">
+         var handlekeydown = function(e){
+              //alert('keycode: ' + e.keyCode);
+              UpdateText(e.keyCode);
+              return false;
+         }                           
+         
+         function draw() {
+              // Get a reference to the canvas 
+              var canvas = document.getElementById('canvas');
+        
+              canvas.addEventListener('keydown',handlekeydown,false);
+             
+              // Get a reference to the drawing context 
+              var ctx = canvas.getContext('2d');
+          
+              gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+          
+              // Add the colors with fixed stops at 1/4 of the width.
+              gradient.addColorStop("0", "black");
+          
+          
+              // Set the fill pattern
+              ctx.fillStyle = gradient;
+          
+              // Set the font
+              ctx.font = "italic 200 36px/2 Unknown Font, sans-serif"
+              
+              ctx.fillText("keydown event", 20, 40);   
+             
+              gradient.addColorStop("0", "gray");
+              ctx.fillText("Input", canvas.width/2 - 50, canvas.height/2);          
+         }                  
+         
+         function UpdateText(input) {
+             // Get a reference to the canvas 
+              var canvas = document.getElementById('canvas');
+        
+              // Get a reference to the drawing context 
+              var ctx = canvas.getContext('2d');
+          
+              ctx.clearRect(0, 0, canvas.width, canvas.height);   
+             
+              gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+          
+              // Add the colors with fixed stops at 1/4 of the width.
+              gradient.addColorStop("0", "black");
+          
+          
+              // Set the fill pattern
+              ctx.fillStyle = gradient;
+          
+              // Set the font
+              ctx.font = "italic 200 36px/2 Unknown Font, sans-serif"
+              
+              ctx.fillText("keydown event", 20, 40);  
+             
+              gradient.addColorStop("0", "gray");
+              ctx.fillText("keyCode: " + input, 40, canvas.height/2);
+              
+         }
+    </script>     
+</head>
+<body onload="draw();">
+    <p>
+      <a href="index.html">Back to index</a>
+    </p>  
+    <canvas id="canvas" width="300" height="200" tabindex='0'>
+      This browser or document mode doesn't support canvas
+    </canvas>
+</body>
+</html>
