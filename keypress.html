@@ -16,10 +16,9 @@ To change this template use Tools | Templates.
     
     <!--SCRIPTS-->
     <script type="text/javascript">
-         var handlekeypress = function(e){
-              //alert('keycode: ' + e.keyCode);
-              //console.log(e);
-              UpdateText(e.charCode);
+         var handlekeypress = function(e) {              
+              var char = (e.key) ? e.key : e.charCode;              
+              UpdateText(char);
               return false;
          }                           
          
@@ -87,7 +86,7 @@ To change this template use Tools | Templates.
          }                  
          
          function UpdateText(input) {
-             // Get a reference to the canvas 
+              // Get a reference to the canvas 
               var canvas = document.getElementById('canvas');
         
               // Get a reference to the drawing context 

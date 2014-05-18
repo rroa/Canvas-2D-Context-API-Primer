@@ -1,0 +1,200 @@
+<!--
+To change this template use Tools | Templates.
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Keyboard Events - keypress</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />    
+    <style type="text/css">
+        canvas.default { border: 1px solid black; }
+        canvas.active { border: 1px solid red; }
+        div.feedback { color: red; font-size: 1.0em; }
+        
+        body {
+            /*background: lightblue;*/
+        }
+    
+        canvas {
+            background: #fff;
+            margin: 20px;
+        }
+    </style>
+    
+    <!--SCRIPTS-->
+    <script type="text/javascript">
+        var x = 0;
+        var y = 0;
+        var kBoardWidth = 9;
+        var kBoardHeight= 9;
+        var kPieceWidth = 50;
+        var kPieceHeight = 50;
+        var kPixelWidth = 1 + (kBoardWidth * kPieceWidth);
+        var kPixelHeight= 1 + (kBoardHeight * kPieceHeight);
+        var fontXOffset = -15;
+        var fontYOffset = 12;
+        var currentPosition = { column:0, row:0 };
+        var gContext;
+        
+        if (window.addEventListener) { // Mozilla, Netscape, Firefox
+            window.addEventListener('load', WindowLoad, false);
+        } 
+        else if (window.attachEvent) { // IE
+            window.attachEvent('onload', WindowLoad);
+        }
+        
+        function isInsideGrid(position) {
+            return ( position.row >= 0 && position.row < kBoardWidth ) && ( position.column >= 0 && position.column < kBoardHeight );
+            
+        }             
+        
+        function drawCharacter(position) {            
+            var column = position.column;
+            var row = position.row;
+            
+            // transform row / column to grid coords
+            var x = (column * kPieceWidth) + (kPieceWidth/2);
+            var y = (row * kPieceHeight) + (kPieceHeight/2);
+            
+            // Radius based of the piece size
+            var radius = (kPieceWidth/2) - (kPieceWidth/10);
+            
+            // path
+            //gContext.beginPath();
+            //gContext.arc(x, y, radius, 0, Math.PI*2, false);
+            //gContext.closePath();
+            
+            // draw
+            gContext.strokeStyle = "#000";
+            gContext.stroke();                       
+            
+            // Set the font
+            gContext.font = "italic 200 36px/2 Unknown Font, sans-serif"
+            
+            // Draw the @ symbol in the center of the circle
+            // 
+            gContext.fillStyle = 'black';
+            gContext.fillText('@', x + fontXOffset, y + fontYOffset);
+            
+            //
+            var up = { column: position.column, row: position.row - 1 };
+            var down = { column: position.column, row: position.row + 1 };
+            var left = { column: position.column - 1, row: position.row };
+            var right = { column: position.column + 1, row: position.row };
+            
+            // Set the fill pattern
+            gContext.fillStyle = '#ccc';                      
+            
+            if(isInsideGrid(up)){
+                var x = (up.column * kPieceWidth) + (kPieceWidth/2);
+                var y = (up.row * kPieceHeight) + (kPieceHeight/2);
+                
+                gContext.fillText('W', x + fontXOffset, y + fontYOffset);
+            }
+            
+            if(isInsideGrid(down)){
+                var x = (down.column * kPieceWidth) + (kPieceWidth/2);
+                var y = (down.row * kPieceHeight) + (kPieceHeight/2);
+                
+                gContext.fillText('S', x + fontXOffset, y + fontYOffset);
+            }
+            
+            if(isInsideGrid(left)){
+                var x = (left.column * kPieceWidth) + (kPieceWidth/2);
+                var y = (left.row * kPieceHeight) + (kPieceHeight/2);
+                
+                gContext.fillText('A', x + fontXOffset, y + fontYOffset);
+            }
+            
+            if(isInsideGrid(right)){
+                var x = (right.column * kPieceWidth) + (kPieceWidth/2);
+                var y = (right.row * kPieceHeight) + (kPieceHeight/2);
+                
+                gContext.fillText('D', x + fontXOffset, y + fontYOffset);
+            }            
+        }
+        
+        // This function was taken from an example of the book HTML5: Up and Running by Mark Pilgrim
+        // http://www.amazon.com/HTML5-Up-Running-Mark-Pilgrim/dp/0596806027
+        // 
+        function drawBoard() {
+                 
+            gContext.clearRect(0, 0, kPixelWidth, kPixelHeight);
+            gContext.beginPath();
+    
+            /* vertical lines */
+            for (var x = 0; x <= kPixelWidth; x += kPieceWidth) {
+	            gContext.moveTo(0.5 + x, 0);
+	            gContext.lineTo(0.5 + x, kPixelHeight);
+            }
+    
+            /* horizontal lines */
+            for (var y = 0; y <= kPixelHeight; y += kPieceHeight) {
+	            gContext.moveTo(0, 0.5 + y);
+	            gContext.lineTo(kPixelWidth, 0.5 +  y);
+            }
+    
+            /* draw it! */
+            gContext.strokeStyle = "#ccc";
+            gContext.stroke();
+                
+            drawCharacter(currentPosition);
+        }                        
+        
+        document.addEventListener("keydown", function (e) {
+            var newPosition = { column:0, row:0 };
+            
+            newPosition.column  = currentPosition.column;
+            newPosition.row     = currentPosition.row;
+            
+            if( e.keyCode == 65 ){
+                newPosition.column -= 1;
+            }
+            
+            // D
+            if( e.keyCode == 68 ){
+                newPosition.column += 1;
+            }
+            
+            // W
+            if( e.keyCode == 87 ){
+                newPosition.row -= 1;
+            }
+            
+            // S
+            if( e.keyCode == 83 ){
+                newPosition.row += 1;
+            }
+            
+            if(isInsideGrid(newPosition)){                
+                currentPosition = newPosition;                    
+            }                       
+            
+            drawBoard();
+        }, false);
+        
+        
+        function WindowLoad(event) {        
+             var canvas = document.createElement('canvas');
+        
+             canvas.id = 'canvas';
+             canvas.width = kPixelWidth;
+             canvas.height = kPixelHeight;
+        
+             document.body.appendChild(canvas);
+
+             var context = canvas.getContext("2d");
+             gContext = context;
+                                     
+             drawBoard();
+        }        
+    </script>     
+</head>
+<body>
+    <p>
+        <a href="index.html">Back to index</a>
+    </p> 
+</body>
+</html>

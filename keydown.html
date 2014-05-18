@@ -16,8 +16,7 @@ To change this template use Tools | Templates.
     
     <!--SCRIPTS-->
     <script type="text/javascript">
-         var handlekeydown = function(e){
-              //alert('keycode: ' + e.keyCode);
+         var handlekeydown = function(e){              
               UpdateText(e.keyCode);
               return false;
          }                           
@@ -58,7 +57,7 @@ To change this template use Tools | Templates.
               // Get a reference to the canvas 
               var canvas = document.getElementById('canvas');
         
-              canvas.addEventListener('keyup', handlekeydown, false);
+              canvas.addEventListener('keydown', handlekeydown, false);
               canvas.addEventListener('focus', handlefocus, false);
               canvas.addEventListener('blur', handleblur, false);
              
