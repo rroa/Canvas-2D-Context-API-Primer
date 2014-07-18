@@ -61,17 +61,12 @@ To change this template use Tools | Templates.
             // Radius based of the piece size
             var radius = (kPieceWidth/2) - (kPieceWidth/10);
             
-            // path
-            //gContext.beginPath();
-            //gContext.arc(x, y, radius, 0, Math.PI*2, false);
-            //gContext.closePath();
-            
             // draw
             gContext.strokeStyle = "#000";
             gContext.stroke();                       
             
             // Set the font
-            gContext.font = "italic 200 36px/2 Unknown Font, sans-serif"
+            gContext.font = "italic 200 36px/2 Unknown Font, sans-serif";
             
             // Draw the @ symbol in the center of the circle
             // 
@@ -149,6 +144,7 @@ To change this template use Tools | Templates.
             newPosition.column  = currentPosition.column;
             newPosition.row     = currentPosition.row;
             
+            // A
             if( e.keyCode == 65 ){
                 newPosition.column -= 1;
             }

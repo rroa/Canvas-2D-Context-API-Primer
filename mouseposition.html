@@ -1,0 +1,67 @@
+<!--
+To change this template use Tools | Templates.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mouse Position</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />    
+    <style type="text/css">
+        canvas.default { border: 1px solid black; }
+        textarea { border: 1px solid #888; width: 300px; height: 100px; }
+    </style>
+    <script>
+        window.onload = function () {
+          var canvas = document.getElementById('canvas');
+          
+          // Get a reference to the drawing context 
+          var ctx = canvas.getContext('2d');           
+                    
+          // Set the fill pattern
+          ctx.fillStyle = 'gray';
+          
+          // Set the font
+          ctx.font = "italic 200 36px/2 Unknown Font, sans-serif";
+              
+          ctx.fillText("Perform", 20, 40);
+          ctx.fillText("mouse events", 20, 80);
+          ctx.fillText("inside the canvas", 20, 120);                                     
+            
+          function onMouseEvent (event) {
+              var text = document.getElementById('feedback');              
+              text.value = 'x: ' + event.pageX + ' y: ' + event.pageY;              
+          }
+            
+          function onMouseEvent1 (event) {
+              var text = document.getElementById('feedback1');
+              var x, y;
+              
+              var offsetLeft = canvas.offsetLeft;
+              var offsetTop = canvas.offsetTop;
+              
+              x = event.pageX;
+              y = event.pageY;
+              
+              x -= offsetLeft;
+              y -= offsetTop;
+              text.value = 'x: ' + x + ' y: ' + y;              
+          }
+          
+          document.addEventListener('mousemove', onMouseEvent, false);
+          canvas.addEventListener('mousemove', onMouseEvent1, false);
+        };
+    </script>
+</head>
+<body>
+    <p>
+      <a href="index.html">Back to index</a>
+    </p>  
+    <canvas id="canvas" width="300" height="200" tabindex='0' class="default">
+      This browser or document mode doesn't support canvas
+    </canvas>
+    <textarea id="feedback"></textarea>
+    <textarea id="feedback1"></textarea>
+</body>
+</html>

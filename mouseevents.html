@@ -1,0 +1,59 @@
+<!--
+To change this template use Tools | Templates.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mouse Events</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />    
+    <style type="text/css">
+        canvas.default { border: 1px solid black; }
+        textarea { border: 1px solid #888; width: 300px; height: 100px; }
+    </style>
+    <script>
+        window.onload = function () {
+          var canvas = document.getElementById('canvas');
+          
+          // Get a reference to the drawing context 
+          var ctx = canvas.getContext('2d');           
+                    
+          // Set the fill pattern
+          ctx.fillStyle = 'gray';
+          
+          // Set the font
+          ctx.font = "italic 200 36px/2 Unknown Font, sans-serif";
+              
+          ctx.fillText("Perform", 20, 40);
+          ctx.fillText("mouse events", 20, 80);
+          ctx.fillText("inside the canvas", 20, 120);                                     
+            
+          function onMouseEvent (event) {
+              var text = document.getElementById('feedback');
+              var newtext = text.value + '\n' + event.type;
+              text.value = newtext;
+              text.scrollTop = text.scrollHeight;
+          }
+
+          canvas.addEventListener('mousedown', onMouseEvent, false);
+          canvas.addEventListener('mouseup', onMouseEvent, false);
+          canvas.addEventListener('click', onMouseEvent, false);
+          canvas.addEventListener('dblclick', onMouseEvent, false);
+          canvas.addEventListener('mousewheel', onMouseEvent, false);
+          canvas.addEventListener('mousemove', onMouseEvent, false);
+          canvas.addEventListener('mouseover', onMouseEvent, false);
+          canvas.addEventListener('mouseout', onMouseEvent, false);
+        };
+    </script>
+</head>
+<body>
+    <p>
+      <a href="index.html">Back to index</a>
+    </p>  
+    <canvas id="canvas" width="300" height="200" tabindex='0' class="default">
+      This browser or document mode doesn't support canvas
+    </canvas>
+    <textarea id="feedback"></textarea>
+</body>
+</html>
