@@ -16,6 +16,11 @@ To change this template use Tools | Templates.
         window.onload = function () {
           var canvas = document.getElementById('canvas');
           
+          var bbox = canvas.getBoundingClientRect();
+          alert(bbox.left);
+          alert(bbox.top);
+          //console.log(bbox);
+            
           // Get a reference to the drawing context 
           var ctx = canvas.getContext('2d');           
                     
@@ -44,6 +49,7 @@ To change this template use Tools | Templates.
           canvas.addEventListener('mousemove', onMouseEvent, false);
           canvas.addEventListener('mouseover', onMouseEvent, false);
           canvas.addEventListener('mouseout', onMouseEvent, false);
+          canvas.addEventListener('contextmenu', onMouseEvent, false);          
         };
     </script>
 </head>
