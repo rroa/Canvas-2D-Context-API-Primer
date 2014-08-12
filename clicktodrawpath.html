@@ -4,9 +4,110 @@ To change this template use Tools | Templates.
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Mouse Events | Click to Draw Path</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />    
+    <style type="text/css">
+        canvas.default { border: 1px solid black; }
+        textarea { border: 1px solid #888; width: 300px; height: 100px; }
+    </style>
+    <script>
+        window.onload = function () {                        
+            // Get the clear button
+            // 
+            var clear = document.getElementById('clearButton');
+            
+            // Get the canvas element
+            //
+            var canvas = document.getElementById('canvas');
+            
+            // Get a reference to the drawing context 
+            // 
+            var ctx = canvas.getContext('2d');
+            
+            var pencil = new tool();
+            
+            // This painting tool works like a drawing pencil which tracks the mouse 
+            // movements.
+            function tool() {
+                
+                var tool = this;
+                this.started = false;
+
+                // This is called when you start holding down the mouse button.
+                // This starts the pencil drawing.
+                this.mousedown = function (event) {
+                    ctx.beginPath();
+                    ctx.moveTo(event._x, event._y);
+                    tool.started = true;
+                };
+
+                // This function is called every time you move the mouse. Obviously, it only 
+                // draws if the tool.started state is set to true (when you are holding down 
+                // the mouse button).
+                this.mousemove = function (event) {                                        
+                    if (tool.started) {                        
+                        ctx.lineTo(event._x, event._y);
+                        ctx.stroke();
+                    }
+                };
+
+                // This is called when you release the mouse button.
+                this.mouseup = function (event) {                    
+                    if (tool.started) {                        
+                        tool.mousemove(event);
+                        tool.started = false;
+                    }
+                };
+            }
+                        
+            
+            function onMouseEvent (event) {
+                var x, y;
+
+                // Get the mouse position relative to the canvas element.
+                // 
+                if (event.layerX || event.layerX == 0) { // Firefox
+                    x = event.layerX;
+                    y = event.layerY;
+                } else if (event.offsetX || event.offsetX == 0) { // Opera
+                    x = event.offsetX;
+                    y = event.offsetY;
+                }
+
+               event._x = x;
+               event._y = y;
+                
+               // Call the event handler of the tool.
+               var func = pencil[event.type];
+               if (func) {
+                   func(event);
+               }
+            }            
+            
+            function onClearEvent(event) {
+                pencil.started = false;                
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            
+            canvas.addEventListener('mousedown', onMouseEvent, false);
+            canvas.addEventListener('mousemove', onMouseEvent, false);
+            canvas.addEventListener('mouseup', onMouseEvent, false);
+            clear.addEventListener('click', onClearEvent, false);
+        };
+    </script>
 </head>
 <body>
-
+    <p>
+      <a href="index.html">Back to index</a>
+    </p>  
+    <canvas id="canvas" width="480" height="300" tabindex='0' class="default">
+      This browser or document mode doesn't support canvas
+    </canvas>
+    <div>
+        <input id="clearButton" type="button" value="Clear" />
+    </div>    
 </body>
 </html>
