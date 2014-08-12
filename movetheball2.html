@@ -1,0 +1,98 @@
+<!--
+To change this template use Tools | Templates.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style type="text/css">
+        canvas.default { border: 1px solid black; }
+        textarea { border: 1px solid #888; width: 300px; height: 100px; }
+    </style>
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/ball.js"></script>
+    <script>
+        function windowToCanvas(canvas, x, y) {
+           var bbox = canvas.getBoundingClientRect();
+           return { 
+                   x: x - bbox.left * (canvas.width  / bbox.width),
+                   y: y - bbox.top  * (canvas.height / bbox.height)
+              };
+        }
+        
+        function moveLeft(ball){
+            
+        }
+        
+        function moveRight(ball){
+            
+        }
+                
+        window.onload = function () {
+          var canvas = document.getElementById('canvas');
+          var ctx = canvas.getContext('2d');    
+          var ball = new Ball();
+          
+          ball.x = canvas.width / 2;
+          ball.y = canvas.height / 2;
+          
+          var frame = 0;  
+          console.log(( ball.y < canvas.height));                       
+            
+          function onMouseClick (event) {
+              console.log('click');
+              var location = windowToCanvas(canvas, event.clientX, event.clientY);
+              //console.log('x: ' + location.x + ' y: ' + location.y);              
+              if(location.x >= 0 && location.x <= 200){
+                  ctx.clearRect(0, 0, canvas.width, canvas.height);
+                  
+                  // Set the fill pattern to red
+                  ctx.fillStyle = "red";  
+                  
+                  // Draw the rectangle
+                  ctx.fillRect (0,0,200,canvas.height);                                    
+              }
+              else if(location.x >= 200 && location.x <= 400){
+                  ctx.clearRect(0, 0, canvas.width, canvas.height);
+                  
+                  // Set the fill pattern to red
+                  ctx.fillStyle = "green"; 
+                  
+                  // Draw the rectangle
+                  ctx.fillRect (200,0,200,canvas.height);                                     
+              }
+              else{
+                  ctx.clearRect(0, 0, canvas.width, canvas.height);
+                  
+                  // Set the fill pattern to red
+                  ctx.fillStyle = "blue";  
+                  
+                  // Draw the rectangle
+                  ctx.fillRect (400,0,200,canvas.height);
+              }
+          }
+            
+          canvas.addEventListener('click', onMouseClick, false);
+            
+          (function drawFrame () {
+            window.requestAnimationFrame(drawFrame, canvas);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            /*
+            ball.y = canvas.height / 2 + Math.sin(angle) * 50; 
+            angle += 0.1;
+            ball.draw(context);*/
+            
+            ball.draw(ctx);                                                 
+          }()); 
+        };
+    </script>
+</head>
+<body>
+    <p>
+      <a href="index.html">Back to index</a>
+    </p>  
+    <canvas id="canvas" width="600" height="300" tabindex='0' class="default">
+      This browser or document mode doesn't support canvas
+    </canvas>    
+</body>
+</html>
