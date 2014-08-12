@@ -4,9 +4,62 @@ To change this template use Tools | Templates.
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Mouse Events | Draw Mouse Path</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />    
+    <style type="text/css">
+        canvas.default { border: 1px solid black; }
+        textarea { border: 1px solid #888; width: 300px; height: 100px; }
+    </style>
+    <script>
+        window.onload = function () {
+            var started = false;
+            
+            // Get the canvas element
+            //
+            var canvas = document.getElementById('canvas');
+            
+            // Get a reference to the drawing context 
+            // 
+            var ctx = canvas.getContext('2d');
+            
+            function onMouseEvent (event) {
+                var x, y;
+
+                // Get the mouse position relative to the canvas element.
+                // 
+                if (event.layerX || event.layerX == 0) { // Firefox
+                    x = event.layerX;
+                    y = event.layerY;
+                } else if (event.offsetX || event.offsetX == 0) { // Opera
+                    x = event.offsetX;
+                    y = event.offsetY;
+                }
+
+                // The event handler works like a drawing pencil which tracks the mouse 
+                // movements. We start drawing a path made up of lines.
+                // 
+                if (!started) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                    started = true;
+                } else {
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                }
+            }
+            
+            canvas.addEventListener('mousemove', onMouseEvent, false);
+        };
+    </script>
 </head>
 <body>
-
+    <p>
+      <a href="index.html">Back to index</a>
+    </p>  
+    <canvas id="canvas" width="480" height="300" tabindex='0' class="default">
+      This browser or document mode doesn't support canvas
+    </canvas>    
 </body>
 </html>
