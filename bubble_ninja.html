@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,user-scalable=no">        
+        <meta name="description" content="Canvas 2D Context API Primer">
+        <meta name="keywords" content="HTML,JavaScript">
+        <meta name="author" content="Raul Roa">
+        <title>Touch Events</title>
+        <style type="text/css">
+            canvas { border: 1px solid black; }            
+        </style>
+        <script>
+            window.onload = function () {
+                // Get the canvas element
+                // 
+                var canvas = document.getElementById('canvas');
+                
+                // Get a reference to the drawing context 
+                // 
+                var ctx = canvas.getContext('2d');
+                
+                // Touch object collection
+                // 
+                var touches = []; 
+                var mouseIsDown = 0;
+                var canX = [], canY = [], bubble = [], colors = [], speed = [];
+                var score = 0;
+                
+                if( canvas && ctx ){
+                    canvas.addEventListener("touchstart", touchDown, false);                    
+                    canvas.addEventListener("touchmove", touchXY, false);                 
+                    canvas.addEventListener("touchend", touchUp, false);
+                    
+                    for (var i = 0; i < 4; i++) {
+                        bubble[i] = 0;
+                        colors[i] = '#'+Math.floor(Math.random()*16777215).toString(16);
+                        speed[i] = getRandomInt(1, 5); 
+                    }
+
+                    animate();
+                }
+                
+                function touchDown(event){
+                    mouseIsDown = 1;                    
+                    touchXY(event);
+                }
+                
+                function touchUp(event) {  
+                    mouseIsDown = 0;                    
+                    touches = event.targetTouches;  
+                }
+                
+                function touchXY(event) {                    
+                    event.preventDefault();
+                    
+                    touches = event.targetTouches;
+
+                    for (var index = 0; index < touches.length; ++index) {
+                        canX[index] = event.targetTouches[index].pageX - canvas.offsetLeft;
+                        canY[index] = event.targetTouches[index].pageY - canvas.offsetTop;
+                    }
+
+                }
+                
+                function getRandomInt(min, max) {
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                }
+                
+                function animate() {                                        
+                    
+                    // Clear the canvas
+                    // 
+                    ctx.clearRect(0,0, canvas.width, canvas.height);
+
+                    // create a path for each bubble
+
+                    for (var i = 0; i < 4; i++) {
+                        ctx.strokeStyle = colors[i];
+                        
+                        // Random speed per frame just because
+                        // 
+                        bubble[i] += speed[i];
+                        
+                        // If bubble is not visible reset its position
+                        // 
+                        if (bubble[i] >= canvas.height + 10) {
+                            bubble[i] = -10;                            
+                        }                            
+
+                        var y = bubble[i];
+                        var x = (i + 1) * 50;
+
+                        var radius = 20;
+
+                        // Draw the bubble
+                        // 
+                        ctx.beginPath();                        
+                        ctx.arc(x, y, radius, 0, 2 * Math.PI);
+                        ctx.closePath();
+
+                        // Collision test
+                        // 
+                        for (var j = 0;j < touches.length; j++) {
+                            if (ctx.isPointInPath(canX[j], canY[j]) && mouseIsDown){
+                                bubble[i] = -30; // Reset the bubble position
+                                score++; // Increase the score
+                            }                                                             
+                        }
+
+                        ctx.stroke();
+
+                        // Set the font
+                        ctx.font = "italic 200 36px/2 Unknown Font, sans-serif";
+                        ctx.fillStyle = "gray";
+                        ctx.fillText(score, 24, canvas.height - 24);
+                        
+                    }
+                    //setTimeout(animate, 30);
+                    window.requestAnimationFrame(animate);
+                }
+            };
+        </script>
+    </head>
+
+    <body>
+        <p>
+          <a href="index.html">Back to index</a>
+        </p>  
+        <canvas id="canvas" width="300" height="300" tabindex='0' class="default">
+          This browser or document mode doesn't support canvas
+        </canvas>        
+    </body>
+</html>
+
