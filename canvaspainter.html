@@ -63,6 +63,7 @@ To change this template use Tools | Templates.
             // Get the canvas element
             //
             var canvas = document.getElementById('canvas');
+            var displayColor = document.getElementById('selected');
             
             // Get a reference to the drawing context 
             // 
@@ -142,6 +143,7 @@ To change this template use Tools | Templates.
             
             function onClickEvent(event){
                 var selectedColor = event.srcElement.id;                
+                displayColor.innerHTML = selectedColor;
                 currentColor = colors[selectedColor];                
             }
             
@@ -168,8 +170,9 @@ To change this template use Tools | Templates.
     <p>
       <a href="index.html">Back to index</a>
     </p>
+    <h1>Let's Doodle!</h1>
     <div>
-        Select a color:
+        Select a color: <b><span id="selected">black</span></b>
     </div>         
     <div>
         <div id="black" class="palette black"></div>
