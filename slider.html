@@ -77,12 +77,44 @@
                     
                 slider.addEventListener("touchmove", function(event) {                    
                     touchXY(event);                                                                
-                }, false);                
+                }, false);
+                
+                slider.addEventListener("mousedown", function(event) {                    
+                    mouseDown(event);                                                                
+                }, false); 
+                
+                slider.addEventListener("mousemove", function(event) {                    
+                    mouseXY(event);                                                                
+                }, false);  
+                
+                slider.addEventListener("mouseup", function(event) {                    
+                    mouseUp(event);                                                                
+                }, false);  
                 
                 // Draw text
                 // 
                 textInit();
                 showVal();
+                
+                
+                function mouseDown(event){
+                    mouseIsDown = 1;
+                    mouseXY(event);
+                }
+                
+                function mouseUp(event){
+                    mouseIsDown = 0;
+                }
+                
+                function mouseXY(event){
+                    if(mouseIsDown){
+                        var mouseX = event.pageX - slider.offsetLeft;
+                        
+                        if (mouseX >= 0 && mouseX <= slider.offsetWidth ) {
+                            setKnob(mouseX);
+                        }
+                    }
+                }
                 
                 function touchXY(event){                    
                     event.preventDefault();
